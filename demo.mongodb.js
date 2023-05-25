@@ -1,9 +1,9 @@
 
 const database = 'Poc';
 use(database);
-db.createCollection("usuarios");
 
-db.createCollection("usuarios", {
+
+db.createCollection("clientes", {
     validator: {
         $jsonSchema: {
             bsonType: "object",
@@ -11,30 +11,31 @@ db.createCollection("usuarios", {
             properties: {
                 nombre: {
                     bsonType: "string",
-                    description: "Nombre del usuario",
+                    description: "Nombre del cliente",
                 },
                 email: {
                     bsonType: "string",
-                    description: "Email del usuario",
+                    description: "Email del cliente",
                 },
                 edad: {
                     bsonType: "int",
                     minimum: 1,
                     maximum: 100,
-                    description: "Edad del usuario",
+                    description: "Edad del cliente",
                 },
             },
         },
     },
 });
 
-db.usuarios.insertOne({
+
+db.clientes.insertOne({
     nombre: "Diego",
     email: "dcortes@example.com",
     edad: 25,
 });
 
-db.usuarios.insertMany([
+db.clientes.insertMany([
     {
         nombre: "Franco",
         email: "franco@example.com",
@@ -47,9 +48,9 @@ db.usuarios.insertMany([
     },
 ]);
 
-db.usuarios.find({});
+db.clientes.find({});
 
-db.usuarios.find({nombre: "Diego", edad: 25});
+db.clientes.find({nombre: "Diego", edad: 25});
 
 
 // Operadores de comparación
@@ -68,7 +69,8 @@ $nin: Obtiene valores que NO se encuentran en un array de elementos.
 */
 
 // Obtener usuarios cuya edad es mayor o igual a 40
-db.usuarios.find({edad: {$gte: 40}});
+db.clientes.find({edad: {$gte: 40}});
+/*
 // Resultado 1
 [
   {
@@ -78,6 +80,8 @@ db.usuarios.find({edad: {$gte: 40}});
     "nombre": "Juan"
   }
 ]
+*/
+
 
 
 // Operadores lógicos
@@ -90,9 +94,10 @@ $type: Comprueba el tipo de dato del campo.
 */
 
 
-
 // Obtener usuarios cuyo campo edad exista
-db.usuarios.find({edad: {$exists: true}});
+db.clientes.find({edad: {$exists: true}});
+
+/*
 // Resultado 3
 [
   {
@@ -114,6 +119,7 @@ db.usuarios.find({edad: {$exists: true}});
     "nombre": "Juan"
   }
 ]
+*/
 
 
 // Operadores logicos
@@ -128,6 +134,8 @@ $and: Filtra documentos que cumplan todas las condiciones descritas en un array 
 
 // Obtener usuarios cuyo nombre sea Diego o Franco
 db.usuarios.find({$or: [{ nombre: "Diego" }, {nombre: "Franco"}]});
+
+/*
 // reultado 2
 [
   {
@@ -144,14 +152,16 @@ db.usuarios.find({$or: [{ nombre: "Diego" }, {nombre: "Franco"}]});
   }
 ]
 
+*/
+
 //  Actualizar documentos
 
-db.usuarios.updateOne(
+db.clientes.updateOne(
     {_id:ObjectId("62c0946602d55365f6a8b737")},
     {$set: { email: "dcortes@update.com" }}
 );
 
-db.usuarios.updateMany(
+db.clientes.updateMany(
     {},
     {$set: { email: "all@update.com" }}
   );
@@ -159,6 +169,6 @@ db.usuarios.updateMany(
 
 // Eliminar documentos
 
-db.usuarios.deleteOne({_id: ObjectId("62c0957402d55365f6a8b739")})
+db.clientes.deleteOne({_id: ObjectId("62c0957402d55365f6a8b739")})
 
-db.usuarios.deleteMany({email: "all@update.com"});
+db.clientes.deleteMany({email: "all@update.com"});
